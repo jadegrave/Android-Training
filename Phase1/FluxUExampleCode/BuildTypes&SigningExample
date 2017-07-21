@@ -1,0 +1,35 @@
+Generally you will have two build types (debug and release) by default, but this can be expanded upon.
+
+Within the enclosures you can set certain aspects of the build type such as the location of the proguard and test proguard file, if test coverage is enabled (required for Jacoco which will be covered in a different section), and the signing config.
+
+Here is an example:
+
+android {
+   buildTypes {
+        debug {
+            testCoverageEnabled true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            testProguardFile file("proguard-test-rules.txt")
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+You are able to sign packages through Android studio, and it is suggested to use random alpha numerical store password and key password.
+
+This file is typically placed in the app directory. Below is an example:
+
+signingConfigs {
+    release {
+        storeFile file("keystore.jks")
+        storePassword "PeH2Hdv7a93v"
+        keyAlias "YaleLook"
+        keyPassword "DbpzP9wy4tqJ"
+    }
+}

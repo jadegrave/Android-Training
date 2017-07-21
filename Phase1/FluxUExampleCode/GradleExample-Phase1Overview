@@ -1,0 +1,27 @@
+// Gradle Example - Overview Section: Phase 1
+
+apply plugin: 'jacoco'
+
+android {
+
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "com.yaleresidential.look"
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 185
+        versionName "1.2.26"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    dependencies {
+        // compile lines go here
+    }
+}

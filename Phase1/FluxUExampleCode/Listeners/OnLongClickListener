@@ -1,0 +1,38 @@
+Similar to a Click listener, there's also a long click event. This is primarily the same, but requires the user to press longer.
+
+Variable OnLongClickListener
+
+Defining the Listener:
+
+public View.OnLongClickListener mViewLongClickListener = new View.OnLongClickListener() {
+    @Override
+    public boolean onLongClick(View v) {
+        // Long click logic
+        return false;
+    }
+};
+Attaching it to the view:
+
+mView.setOnLongClickListener(mViewLongClickListener);
+Inline OnLongClickListener
+
+Defining the listener:
+
+mView.setOnLongClickListener(new View.OnLongClickListener() {
+   @Override
+   public boolean onLongClick(View v) {
+       // Long click logic
+       return false;
+   }
+});
+With lambda expressions this can be reduced to:
+
+mViewPager.setOnLongClickListener(v -> {
+    // Long click logic
+    return false;
+});
+Why The Boolean?!
+
+OnLongClickListener is interesting because it has a boolean return. The true or false returned affects other actions like a normal click. For instance,there may be both a click and long click listener on a view. With the return being set to false, then the normal click listener would be executed. However, if the return is set to true, then the normal click listener would not be executed because the long click callback would have consumed the event.
+
+https://developer.android.com/reference/android/view/View.OnLongClickListener.html

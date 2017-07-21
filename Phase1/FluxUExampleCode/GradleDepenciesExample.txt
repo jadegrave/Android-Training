@@ -1,0 +1,109 @@
+Dependencies
+Gradle is a wrapper around Maven...instead of using XML, Gradle uses Groovy syntax.
+
+Typically there will be a top-level gradle where classpath and repositories are defined as well as an app or module level gradle.
+
+You can add major repositories by name:
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+You can also add a repository with a URL:
+
+allprojects {
+    repositories {
+        maven {
+            url "https://repo.example.com/maven2"
+        }
+    }
+}
+Below is an example of how to add a dependency that is a local module within the project:
+
+android {
+    dependencies {
+        compile project(":myLocalLibrary")
+    }
+}
+Below is an example of how to add a dependency that is a local binary (i.e. a jar) with the project:
+
+android {
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+    }
+}
+Below is an example of how to add a remote dependency that is a binary:
+
+android {
+    dependencies {
+        compile 'com.example.android:app-magic:12.3'
+    }
+}
+You can also expand the short hand to:
+
+android {
+    dependencies {
+        compile group: 'com.example.android', name: 'app-magic', version: '12.3'
+    }
+}
+There are also variants of the compile statement:
+
+compile - Compiles all the time
+testCompile - Only compiles dependency when running unit/junit tests
+androidTestCompile - Only compiles dependency when running instrumentation/android tests
+Transitive Dependencies
+
+Transitive dependencies are sub dependencies of the libraries your project is using.
+
+You can set the transitive property for a dependency like this:
+
+compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+    transitive = true;
+}
+Exclusions
+
+You can exclude a sub dependency that's already been included or that is not needed similar to setting the transitive property:
+
+androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2') {
+    exclude module: 'support-annotations'
+}
+In the example above, the project would not pull in the support-annotations library espresso-core has listed as a sub-dependency.
+
+Viewing the Dependency Tree
+
+You can use the following gradle command:
+
+./gradlew app:dependencies
+To return a representation of the dependencies your project is pulling in as well as their transitive dependencies:
+
++--- com.android.support:appcompat-v7:24.2.1
+|    +--- com.android.support:support-v4:24.2.1
+|    |    +--- com.android.support:support-compat:24.2.1
+|    |    |    \--- com.android.support:support-annotations:24.2.1
+|    |    +--- com.android.support:support-media-compat:24.2.1
+|    |    |    \--- com.android.support:support-compat:24.2.1 (*)
+|    |    +--- com.android.support:support-core-utils:24.2.1
+|    |    |    \--- com.android.support:support-compat:24.2.1 (*)
+|    |    +--- com.android.support:support-core-ui:24.2.1
+|    |    |    \--- com.android.support:support-compat:24.2.1 (*)
+|    |    \--- com.android.support:support-fragment:24.2.1
+|    |         +--- com.android.support:support-compat:24.2.1 (*)
+|    |         +--- com.android.support:support-media-compat:24.2.1 (*)
+|    |         +--- com.android.support:support-core-ui:24.2.1 (*)
+|    |         \--- com.android.support:support-core-utils:24.2.1 (*)
+|    +--- com.android.support:support-vector-drawable:24.2.1
+|    |    \--- com.android.support:support-compat:24.2.1 (*)
+|    \--- com.android.support:animated-vector-drawable:24.2.1
+|         \--- com.android.support:support-vector-drawable:24.2.1 (*)
++--- com.android.support:support-v4:24.2.1 (*)
++--- com.android.support:design:24.2.1
+|    +--- com.android.support:support-v4:24.2.1 (*)
+|    +--- com.android.support:appcompat-v7:24.2.1 (*)
+|    \--- com.android.support:recyclerview-v7:24.2.1
+|         +--- com.android.support:support-annotations:24.2.1
+|         +--- com.android.support:support-compat:24.2.1 (*)
+|         \--- com.android.support:support-core-ui:24.2.1 (*)
+https://developer.android.com/studio/build/dependencies.html

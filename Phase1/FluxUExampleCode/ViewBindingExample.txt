@@ -1,0 +1,41 @@
+View binding (also known as view injection) removes the boiler plate for finding views you want to interact with programmatically.
+
+Without view binding our code would look something like this if you are in an Activity:
+
+EditText emailEditText = findViewById(R.id.emai_edit_text);
+if (TextUtils.isEmpty(mEmailEditText.getText().toString().trim())) {
+  // handle empty email
+} else {
+  // handle non-empty email
+}
+or:
+
+if(getActivity() != null) {
+  EditText emailEditText = getActivity().findViewById(R.id.emai_edit_text);
+  if (TextUtils.isEmpty(emailEditText.getText().toString().trim())) {
+    // handle empty email
+  } else {
+    // handle non-empty email
+  }
+}
+if you're in a Fragment. With view binding we can have something similar to Butterknife's InjectView, Bind, or BindView:
+
+@BindView(R.id.emai_edit_text)
+public EditText mEmailEditText;
+Shortening the other code to:
+
+if (TextUtils.isEmpty(mEmailEditText.getText().toString().trim())) {
+  // handle empty email
+} else {
+  // handle non-empty email
+}
+if you're in an Activity or:
+
+if(getActivity() != null) {
+  if (TextUtils.isEmpty(mEmailEditText.getText().toString().trim())) {
+    // handle empty email
+  } else {
+    // handle non-empty email
+  }
+}
+if you're in a Fragment.

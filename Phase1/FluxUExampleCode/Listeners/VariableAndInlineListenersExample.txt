@@ -1,0 +1,33 @@
+A listener on a view helps handle basic UI interactions via callbacks. They provide locations of where to put logic to respond to actions that the user takes. There are two main ways to define listeners on views.
+
+Variable Listeners
+
+A variable listener would be where the set and definition of the listener itself are divided.
+
+First you would have to define it, pretty much like any other variable, like:
+
+public View.OnClickListener mViewClickListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+    }
+};
+Then you would in a separate step would set or attach the listener to the view:
+
+mViewPager.setOnClickListener(mViewClickListener);
+This tends to be more readable and you can reuse the listener on multiple views if needed.
+
+Inline Listeners
+
+An alternative to variable listeners would be to define the listener in-line instead of as it's being set on the view.
+
+This tends to be less readable and does not lend itself well to having shared logic if multiple views need the same logic in their listeners.
+
+Here's an example:
+
+mMyView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        // Click logic
+    }
+});

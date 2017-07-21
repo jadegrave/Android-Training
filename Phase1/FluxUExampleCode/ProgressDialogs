@@ -1,0 +1,10 @@
+ProgressDialogs are a specific type of dialog that show the user something is going on. It can block the UI and can show both determinate and indeterminate progress.
+
+mProgressDialog = new ProgressDialog(getActivity());
+mProgressDialog.setTitle(getString(R.string.progress_dialog_title));
+mProgressDialog.setMessage(getString(R.string.progress_dialog_message));
+You can perform actions such as dismiss(), cancel(), and setCancelable():
+
+mProgressDialog.cancel();
+mProgressDialog.show();
+mProgressDialog.setCancelable(false);

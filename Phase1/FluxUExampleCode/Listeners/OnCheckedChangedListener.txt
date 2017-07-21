@@ -1,0 +1,30 @@
+The OnCheckedChangeListener is used primarily for checkboxes. If there is specific logic that needs to be run when a user check or unchecks the box, this would be what to implement on the checkbox view.
+
+Variable OnCheckedChangeListener
+
+Defining the listener:
+
+CompoundButton.OnCheckedChangeListener mViewCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+     @Override
+     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+         // Logic for if the checked state has been altered
+     }
+ };
+Attaching it to the view:
+
+mView.setOnCheckedChangeListener(mViewCheckedChangeListener);
+Inline OnCheckedChangeListener
+
+Defining the listener:
+
+mView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      // Logic for if the checked state has been altered
+    }
+});
+With lambda expressions this can be reduced to:
+
+mView.setOnCheckedChangeListener((buttonView, isChecked) -> {
+  // Logic for if the checked state has been altered
+});      

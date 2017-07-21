@@ -1,0 +1,111 @@
+Menus
+There are several types of menus such as popup menu, contextual menu, and an options menu.
+
+First you will need to define the menu in a file within the /res/menu dir:
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/option_1"
+          android:icon="@drawable/icon_option_1"
+          android:title="@string/option_1"
+          android:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/option_2"
+          android:icon="@drawable/icon_option_2"
+          android:title="@string/option_2" />
+</menu>
+The convention is to use ifRoom because that lets the device decide how it should display the menu option (i.e. in a dropdown or in the action bar itself).
+
+Then your activity or fragment will need to display the menu. For an options menu that would look like:
+
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.my_menu, menu);
+    return true;
+}
+For a contextual menu that would look like:
+
+@Override
+public void onCreateContextMenu(ContextMenu menu, View v,
+                                ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.my_menu, menu);
+}
+For a popup menu this would look like:
+
+PopupMenu popup = new PopupMenu(this, v);
+MenuInflater inflater = popup.getMenuInflater();
+inflater.inflate(R.menu.my_menu, popup.getMenu());
+popup.show();
+unless you want to display icons then it would look like:
+
+popupMenu.getMenuInflater().inflate(menuResourceId, popupMenu.getMenu());
+
+// Sets icons to be shown
+try {
+    Field[] fields = popupMenu.getClass().getDeclaredFields();
+    for (Field field : fields) {
+        if ("mPopup".equals(field.getName())) {
+            field.setAccessible(true);
+            Object menuPopupHelper = field.get(popupMenu);
+            Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+            Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+            setForceIcons.invoke(menuPopupHelper, true);
+            break;
+        }
+    }
+} catch (Exception e) { // TODO - We should be catching specific exceptions not just any
+    Timber.e(e, "Unable to set force icons");
+}
+
+popupMenu.show();
+Then you will also need to handle the item clicks. For an options menu this would look like:
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+        case R.id.option_1:
+            // handle option 1
+            return true;
+        case R.id.option_2:
+            // handle option 2
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+    }
+}
+For a context menu this would look like:
+
+@Override
+public boolean onContextItemSelected(MenuItem item) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    switch (item.getItemId()) {
+      case R.id.option_1:
+          // handle option 1
+          return true;
+      case R.id.option_2:
+          // handle option 2
+          return true;
+        default:
+            return super.onContextItemSelected(item);
+    }
+}
+For a pop-up menu it would look like this:
+
+@Override
+public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()) {
+        case R.id.option_1:
+            // handle option 1
+            return true;
+        case R.id.option_2:
+            // handle option 2
+            return true;
+        default:
+            return false;
+    }
+}
+https://developer.android.com/guide/topics/ui/menus.html

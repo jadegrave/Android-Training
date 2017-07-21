@@ -1,0 +1,108 @@
+Spinner
+
+A spinner is a drop down menu. Below is an example of how to write a custom adapter and set one u.
+
+The layout will include a spinner xml element:
+
+<Spinner
+    android:id="@+id/spinner"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" />
+The custom adapter will look similar to:
+
+public class StringSpinnerAdapter implements SpinnerAdapter {
+
+    ArrayList<String> mStrings;
+
+    public StringSpinnerAdapter(ArrayList<String> strings) {
+        this.mStrings = strings;
+    }
+
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return getStringSpinnerView(position, convertView, parent);
+    }
+
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer) {
+        // No OP
+    }
+
+    @Override
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        // No OP
+    }
+
+    @Override
+    public int getCount() {
+        return mStrings.size();
+    }
+
+    @Override
+    public String getItem(int position) {
+        return mStrings.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        return getStringSpinnerView(position, convertView, parent);
+    }
+
+    public View getStringSpinnerView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+        if (view == null) {
+            view = View.inflate(parent.getContext(), R.layout.item_string, null);
+
+            ViewHolder viewHolder = new ViewHolder();
+            viewHolder.spinnerString = (TextView) view.findViewById(R.id.spinner_string);
+
+            view.setTag(viewHolder);
+        }
+        TextView spinnerStringTextView = ((ViewHolder) view.getTag()).spinnerString;
+        String string = getItem(position);
+        spinnerStringTextView.setText(string);
+
+        return view;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 1;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    private class ViewHolder {
+
+        TextView spinnerString;
+    }
+}
+Setting it up in the fragment or activity would look something like this:
+
+mStringArrayForSpinner = new ArrayList<>();
+mStringArrayForSpinner.add(getString(R.string.option_1));
+mStringArrayForSpinner.add(getString(R.string.option_2));
+mStringArrayForSpinner.add(getString(R.string.option_3));
+
+StringSpinnerAdapter stringArraySpinnerAdapter = new StringSpinnerAdapter(mStringArrayForSpinner);
+mStringSpinner.setAdapter(stringArraySpinnerAdapter);
+https://developer.android.com/guide/topics/ui/controls/spinner.html

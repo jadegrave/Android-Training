@@ -1,0 +1,40 @@
+There will be instances where you will want to do something when a user clicks on an item. To do this, you simply add a click listener onto the view.
+
+Variable OnCheckedChangeListener
+
+Defining the listener:
+
+public View.OnClickListener mViewClickListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+    }
+};
+Attaching it to the view:
+
+mViewPager.setOnClickListener(mViewClickListener);
+Inline OnClickListener
+
+Defining the listener:
+
+mMyView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        // Click logic
+    }
+});
+With lambda expressions this can be reduced to:
+
+mMyView.setOnClickListener(v -> {
+  // Click logic
+});
+Butterknife's @OnClick
+
+Butterknife also gives us the ability to extract the click logic into a nice separate method instead of having to define the click listener in-inline on in a variable. Here is an example:
+
+@SuppressWarnings("unused")
+@OnClick(R.id.my_view)
+public void onMyViewClick() {
+   // Click logic
+}
+https://developer.android.com/reference/android/view/View.OnClickListener.html

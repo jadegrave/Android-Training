@@ -1,0 +1,39 @@
+Configure Signing Settings
+Gradle does not sign your release build's APK unless you explicitly define a signing configuration for this build. You can easily create a release key and sign your release build type using Android Studio.
+
+To manually configure the signing configurations for your release build type using Gradle build configurations:
+
+Create a keystore. A keystore is a binary file that contains a set of private keys. You must keep your keystore in a safe and secure place.
+Create a private key. A private key represents the entity to be identified with the app, such as a person or a company.
+Add the signing configuration to the module-level build.gradle file:
+...
+android {
+    ...
+    defaultConfig {...}
+    signingConfigs {
+        release {
+            storeFile file("myreleasekey.keystore")
+            storePassword "password"
+            keyAlias "MyReleaseKey"
+            keyPassword "password"
+        }
+    }
+    buildTypes {
+        release {
+            ...
+            signingConfig signingConfigs.release
+        }
+    }
+}
+To generate a signed APK, select Build > Generate Signed APK from the menu bar. The package in app/build/apk/app-release.apk is now signed with your release key.
+
+Note: Including the passwords for your release key and keystore inside the build file is not a good security practice. Alternatively, you can configure the build file to obtain these passwords from environment variables or have the build process prompt you for these passwords.
+
+To obtain these passwords from environment variables:
+
+storePassword System.getenv("KSTOREPWD")
+keyPassword System.getenv("KEYPWD")
+To have the build process prompt you for these passwords if you are invoking the build from the command line:
+
+storePassword System.console().readLine("\nKeystore password: ")
+keyPassword System.console().readLine("\nKey password: ")

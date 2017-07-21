@@ -1,0 +1,23 @@
+ScrollView
+
+A scroll view is a mechanism to handle smaller screens which enables scrolling when the content exceeds the screen size. It can only contain one view group, but that does not include nested view groups.
+
+Example:
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:isScrollContainer="true">
+
+        // Nested views and view groups
+
+    </ScrollView>
+
+</LinearLayout>

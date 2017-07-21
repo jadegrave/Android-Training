@@ -1,0 +1,64 @@
+Dependency InjectionBack to Topic
+Dependency injection can be a very in-depth and long topic and there are different tools that can be used in Android (although Dagger 2 is the current standard). This will only be a brief introduction into what it is and how it helps testability.
+
+Primarily injection is used to introduce a class (normally a Singleton) as a dependency into others.
+
+Let's say there are multiple classes that requires a util class of some sort. It would be tedious and memory intensive to instantiate it for every class that needs it. In this instance what makes the most sense is to make the util class a Singleton and to use the same instance throughout the others needing it as a dependency.
+
+Using Injection For Testability
+
+The primary advantage and HUGE gains with dependency injection is it removes the boiler plate for test setup when you want to return mock data. For instance, in the
+examples below,
+
+Traditional way (requires creating the mock and setting it on the class under test via a public variable):
+
+public class ActivityUnderTestTest extends BaseTestClass<ActivityUnderTest> {
+
+    @Rule
+    public ActivityTestRule<LookStreamActivity> mActivityTestRule = new IntentsTestRule<>(ActivityUnderTest.class);
+
+    public InjectableClass mInjectableClass;
+
+    public ActivityUnderTestTest() {
+        super(ActivityUnderTest.class);
+    }
+
+    @Before
+    public void setUp() {
+        mInjectableClass = mock(InjectableClass.class);
+        ActivityUnderTest.mInjectableClass = mInjectableClass;
+        when(mInjectableClass.doTheThing()).thenReturn(returnValueForTest);
+    }
+
+    @test
+    public void testTheThing() {
+      // Test code here
+    }
+}
+
+With Injection:
+public class ActivityUnderTestTest extends BaseTestClass<ActivityUnderTest> {
+
+    @Rule
+    public ActivityTestRule<LookStreamActivity> mActivityTestRule = new IntentsTestRule<>(ActivityUnderTest.class);
+
+    @Inject
+    public InjectableClass mInjectableClass;
+
+    public ActivityUnderTestTest() {
+        super(ActivityUnderTest.class);
+    }
+
+    @Before
+    public void setUp() {
+        when(mInjectableClass.doTheThing()).thenReturn(returnValueForTest);
+    }
+
+    @Test
+    public void testTheThing() {
+      // Test code here
+    }
+}
+
+Why?! How does this voodoo sorcery work? Well...that's because instead of injecting the Singleton class or class itself,
+we've setup our test suite to inject a mocked version so it cuts out a lot of the headache and pain during test setup.

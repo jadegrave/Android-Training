@@ -1,0 +1,54 @@
+ViewPager
+
+A view pager is a mechanism for loading multiple fragments typically in a horizontal scrolling manner.
+
+You will define the element in your layouts xml:
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+               android:id="@+id/view_pager"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent" />
+
+</LinearLayout>
+and you will also need what is called an adapter to load the fragments:
+
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+    private static int NUM_FRAGMENT_PAGES = 3;
+
+    private Context mContext;
+
+    public ViewPagerAdapter(FragmentManager fragmentManager, Context context) {
+        super(fragmentManager);
+        mContext = context;
+    }
+
+    @Override
+    public int getCount() {
+        return NUM_FRAGMENT_PAGES;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        switch (position) {
+            case 0:
+                return FragmentOne.newInstance();
+            case 1:
+                return FragmentTwo.newInstance();
+            case 2:
+                return FragmentThree.newInstance();
+            default:
+                return null;
+        }
+    }
+}
+Then you will also need to set the adapter of your view pager view to an instance of one created:
+
+ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), getActivity());
+mViewPager.setAdapter(viewPagerAdapter);
