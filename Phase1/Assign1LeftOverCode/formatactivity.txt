@@ -1,0 +1,35 @@
+
+//import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
+
+
+//    private Pattern pattern = Pattern.compile("^((http://|https://)?((\\w\\w\\w\\.)?((([a-zA-Z0-9]+(([a-zA-Z0-9-]*)?))+\\.){0,58})[a-zA-Z]{2,6})$)",
+//                                              Pattern.CASE_INSENSITIVE);
+//    private Matcher matcher;
+
+
+
+//        try {
+//
+//            URL aUrl = new URL (rawUrl);
+//            urlProtocol = aUrl.getProtocol();
+//            urlHost = aUrl.getHost();
+//
+//        } catch (MalformedURLException e) {
+//            Log.v(TAG, "Bad Url because:  " + e);
+//
+//            boolean b = e.toString().equalsIgnoreCase("java.net.MalformedURLException: no protocol:");
+//            if (!b) {
+//                urlHost = rawUrl;
+//                urlProtocol = "https://";
+//            }
+//
+//        } finally {
+//
+////            if (urlHost == "" && (urlProtocol != null || urlProtocol != "")){
+////                urlHost = urlProtocol;
+////                urlProtocol = "http://";
+////            }
+
+//      }
+//            Log.v("Formatted url returned:", formattedUrl);
