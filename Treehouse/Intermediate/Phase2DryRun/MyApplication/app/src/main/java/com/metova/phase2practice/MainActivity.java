@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     // The definition of our task class
     private class PostTask extends AsyncTask<String, String, String> {
+        private String resp;
         ProgressDialog lyricsProgressBar;
 
 
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             publishProgress("Fetching lyric lists...");   // Calls progress update
             String url = params[0];
-            final String[] result = new String[1];
             if (isNetworkAvailable()) {
+
 
                 OkHttpClient client = new OkHttpClient();
 
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             Log.v(TAG, response.body().string());
                             if (response.isSuccessful()) {
-                                result[0] = response.body().string();
+                                resp = response.body().string();
 
                             } else {
                                 Log.e(TAG, getString(R.string.log_error_network));
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.d(TAG, getString(R.string.log_info_main_thread));
 
-            return result[0];
+            return resp;
         }
 
 
