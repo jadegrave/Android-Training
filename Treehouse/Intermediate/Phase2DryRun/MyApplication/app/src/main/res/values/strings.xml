@@ -7,4 +7,5 @@
     <string name="log_error_network">Network connectivity error</string>
     <string name="log_error_http">Exception caught:</string>
     <string name="log_info_main_thread">Main UI thread is running</string>
+    <string name="error_json_exception">JSON Exception</string>
 </resources>
