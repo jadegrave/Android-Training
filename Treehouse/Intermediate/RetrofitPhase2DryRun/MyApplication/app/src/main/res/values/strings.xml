@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Phase2Practice</string>
+    <string name="error_title">Uh-oh! Sorry!</string>
+    <string name="error_message">There was an error. Please try again.</string>
+    <string name="error_ok_button_text">OK</string>
+    <string name="error_http_request">HTTP request failed. Try again.</string>
+    <string name="log_error_network">Network connectivity error</string>
+    <string name="log_error_http">Exception caught:</string>
+    <string name="log_info_main_thread">Main UI thread is running</string>
+    <string name="error_json_exception">JSON Exception</string>
+</resources>
