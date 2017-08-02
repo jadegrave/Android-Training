@@ -1,7 +1,9 @@
-package com.metova.musixmatch;
+package com.metova.musixmatch.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.metova.musixmatch.R;
 
 public class MainActivity extends AppCompatActivity {
 

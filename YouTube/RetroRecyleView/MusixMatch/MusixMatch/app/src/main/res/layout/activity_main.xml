@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/swipeContainer"
-    tools:context="com.metova.musixmatch.MainActivity">
+    tools:context="com.metova.musixmatch.controller.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
