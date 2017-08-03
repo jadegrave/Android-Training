@@ -9,10 +9,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Client {
 
-    public static final String BASE_URL ="https://api.musixmatch.com/ws/1.1/";
+
+    public static final String BASE_URL ="https://api.musixmatch.com";
     public static Retrofit retrofit = null;
 
-    public static Retrofit getclient() {
+    public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)

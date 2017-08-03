@@ -1,11 +1,15 @@
 package com.metova.musixmatch.api;
 
-import com.metova.musixmatch.model.ItemResponse;
+import com.metova.musixmatch.model.ArtistsResults;
+
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.QueryMap;
 
-import static com.metova.musixmatch.api.Service.API_KEY;
 
 /**
  * Created by jodi on 8/2/17.
@@ -13,9 +17,9 @@ import static com.metova.musixmatch.api.Service.API_KEY;
 
 public interface Service {
 
-    public static final String API_KEY = "d4925412c66d7dcd84a652cf40daad98";
+    @Headers("Content-Type: application/json")
+    @GET("ws/1.1/chart.artists.get")
+    Call<ArtistsResults> getMessage(
+            @QueryMap Map<String, String> options);
 
-    @GET("chart.artists.get?format=json&callback=callback&page=1&page_size=100&country=us&apikey=" + API_KEY);
-
-    Call<ItemResponse> getItems();
 }

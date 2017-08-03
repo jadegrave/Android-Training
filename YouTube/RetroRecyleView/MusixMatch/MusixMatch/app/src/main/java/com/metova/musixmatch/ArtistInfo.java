@@ -6,7 +6,7 @@ import com.metova.musixmatch.model.ArtistList;
  * Created by jodi on 8/2/17.
  */
 
-public class ItemResult {
+public class ArtistInfo {
 
 
 

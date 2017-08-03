@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MusixMatch</string>
     <string name="internet_not_available">No Interent connection.</string>
+    <string name="artist_name">Artist Name</string>
+    <string name="twitter_header">Twitter</string>
+    <string name="fetch_musixmatch_artists_text">Fetching MusixMatch Artists...</string>
 </resources>
