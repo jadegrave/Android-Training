@@ -40,9 +40,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         viewHolder.name.setText(artists.get(i).getArtistName());
         viewHolder.link.setText(artists.get(i).getArtistShareUrl());
         viewHolder.rating.setText(String.valueOf(artists.get(i).getArtistRating()));
-        //String rating = String.valueOf(artists.get(i).getArtistRating());
-        //viewHolder.rating.setText(rating);
-
     }
 
     @Override
@@ -62,7 +59,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
             link = (TextView) view.findViewById(R.id.link);
             rating = (TextView) view.findViewById(R.id.rating);
 
-            //on item click
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

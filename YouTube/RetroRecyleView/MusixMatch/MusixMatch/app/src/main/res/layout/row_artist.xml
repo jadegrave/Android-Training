@@ -30,8 +30,9 @@
             android:text="@string/artist_name"
             android:layout_toRightOf="@+id/rating"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:textAppearance="?android:textAppearanceLarge"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
