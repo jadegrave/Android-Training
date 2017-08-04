@@ -8,44 +8,42 @@
     android:clickable="true"
     android:focusable="true"
     android:elevation="60dp"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/rating"
-            android:text="Rating"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="35dp"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/name"
-            android:text="@string/artist_name"
-            android:layout_toRightOf="@+id/rating"
+            android:id="@+id/cover"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold" />
+            android:scaleType="fitXY"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/link"
-            android:text="@string/share_links_header"
-            android:layout_toRightOf="@+id/rating"
+            android:id="@+id/title"
+            android:text="Username"
+            android:layout_toRightOf="@+id/cover"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/name"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/githublink1"
+            android:text="GithubLink"
+            android:layout_toRightOf="@+id/cover"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/title"
             android:visibility="invisible"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"/>
 
 
     </RelativeLayout>

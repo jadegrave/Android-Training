@@ -3,23 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="310dp"
-        android:id="@+id/music_icon"
-        android:fitsSystemWindows="true"
-        android:scaleType="fitXY" />
+        android:layout_height="40dp"
+        android:id="@+id/rating_header"
+        android:text="Artist Rating"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        android:textSize="25dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/rating_text"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_below="@+id/rating_header"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/artist_header"
         android:layout_marginLeft="10dp"
         android:text="@string/artist_name"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:textStyle="bold"
         android:textSize="25dp"
-        android:layout_below="@+id/music_icon" />
+        android:layout_below="@+id/rating_text" />
 
     <TextView
         android:layout_width="match_parent"
@@ -34,11 +45,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/twitter_link"
+        android:id="@+id/links_header"
         android:layout_marginLeft="10dp"
-        android:text="@string/twitter_header"
-        android:textAlignment="center"
-        android:layout_marginTop="10dp"
+        android:text="@string/share_links_header"
+        android:layout_marginTop="40dp"
         android:textStyle="bold"
         android:textSize="25dp"
         android:layout_below="@+id/artist_name_full" />
@@ -46,11 +56,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/twitter_link"
+        android:id="@+id/share_link"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="3dp"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_below="@+id/twitter_link" />
+        android:layout_below="@+id/links_header" />
 
 </RelativeLayout>

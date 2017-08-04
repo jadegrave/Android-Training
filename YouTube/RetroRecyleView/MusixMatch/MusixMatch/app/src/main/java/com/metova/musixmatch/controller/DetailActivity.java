@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import com.metova.musixmatch.R;
@@ -19,9 +18,9 @@ import com.metova.musixmatch.R;
  */
 
 public class DetailActivity extends AppCompatActivity {
-    TextView Link, ArtistName;
-    Toolbar mActionBarToolbar;
-    ImageView imageView;
+    TextView shareLink;
+    TextView artistFullName;
+    TextView artistMmRating;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -29,30 +28,28 @@ public class DetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        imageView = (ImageView) findViewById(R.id.music_icon);
-        ArtistName = (TextView) findViewById(R.id.artist_name_full);
-
-        Link = (TextView) findViewById(R.id.link);
+        artistMmRating = (TextView) findViewById(R.id.rating_text);
+        artistFullName = (TextView) findViewById(R.id.artist_name_full);
+        shareLink = (TextView) findViewById(R.id.share_link);
 
         String artistName = getIntent().getExtras().getString("artist_name");
-        //String avatarUrl = getIntent().getExtras().getString("avatar_url");
-        String link = getIntent().getExtras().getString("artist_twitter_url");
+        int rating = getIntent().getExtras().getInt("artist_rating");
+        String link = getIntent().getExtras().getString("artist_share_url");
 
-        Link.setText(link);
-        Linkify.addLinks(Link, Linkify.WEB_URLS);
+        shareLink.setText(link);
+        Linkify.addLinks(shareLink, Linkify.WEB_URLS);
 
-        ArtistName.setText(artistName);
-//        Glide.with(this)
-//                .load(avatarUrl)
-//                .placeholder(R.drawable.load)
-//                .into(imageView);
-
+        artistFullName.setText(artistName);
+        artistMmRating.setText(String.valueOf(rating));
         getSupportActionBar().setTitle("Details Activity");
     }
 
-    private Intent createShareForcastIntent(){
+
+
+    private Intent createShareForecastIntent(){
         String artistName = getIntent().getExtras().getString("artist_name");
-        String link = getIntent().getExtras().getString("artist_twitter_url");
+        String link = getIntent().getExtras().getString("artist_share_url");
+
         Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                 .setType("text/plain")
                 .setText("Check out this artist @" + artistName + ", " + link)
@@ -65,7 +62,9 @@ public class DetailActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detail, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
-        menuItem.setIntent(createShareForcastIntent());
+        menuItem.setIntent(createShareForecastIntent());
         return true;
     }
+
+
 }

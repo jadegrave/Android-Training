@@ -18,7 +18,6 @@ import com.metova.musixmatch.api.Service;
 import com.metova.musixmatch.model.Artist;
 import com.metova.musixmatch.model.ArtistList;
 import com.metova.musixmatch.model.ArtistsResults;
-import com.metova.musixmatch.model.Item;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static java.util.Collections.*;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     TextView Disconnected;
-    private Item item;
     ProgressDialog mProgressDialog;
     private SwipeRefreshLayout swipeContainer;
 
@@ -85,22 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<ArtistsResults> call, Response<ArtistsResults> response) {
                     ArrayList<ArtistList> artistArrayList = (ArrayList<ArtistList>)response.body().getMessage().getBody().getArtistList();
 
-                    // Get rid of ArtistList wrapper object around Artist objects
 
+                    // Get rid of ArtistList wrapper object around Artist objects
+                    // And sort the artists based on artist rating
                     List<Artist> artistArray = new ArrayList<>();
                     artistArray = cleanArtistListArray(artistArrayList);
-//                    for (ArtistList a : artistArrayList ) {
-//                        artistArray.add(a.getArtist());
-//                    }
-//
-//                    //Sort Artists in ascending order of artist rating
-//                    Collections.sort(artistArray, new Comparator<Artist>() {
-//                        @Override
-//                        public int compare(Artist a1, Artist a2) {
-//                            return a1.getArtistRating() - a2.getArtistRating();
-//                        }
-//                    });
 
+                    //Create and setup the adapter
                     mRecyclerView.setAdapter(new ArtistAdapter(getApplicationContext(), artistArray));
                     mRecyclerView.smoothScrollToPosition(0);
                     swipeContainer.setRefreshing(false);
@@ -143,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // provides query parameters to api url
+    // provides Retrofit2 query parameters to api url
     private Map<String, String> getData() {
 
         Map<String, String> data = new HashMap<>();
