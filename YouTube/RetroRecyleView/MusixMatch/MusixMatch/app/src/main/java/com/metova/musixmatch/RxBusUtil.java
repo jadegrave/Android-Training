@@ -10,9 +10,18 @@ import io.reactivex.subjects.Subject;
 
 public class RxBusUtil {
 
+    private static RxBusUtil instance;
     private final PublishSubject<Object> RxBus = PublishSubject.create();
 
-    public void send(Object o) {
+    public static RxBusUtil instanceOf() {
+        if (instance == null) {
+            instance = new RxBusUtil();
+        }
+        return instance;
+    }
+
+
+    public void post(Object o) {
         RxBus.onNext(o);
     }
 
