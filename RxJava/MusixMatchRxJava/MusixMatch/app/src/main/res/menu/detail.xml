@@ -11,8 +11,4 @@
         android:title="Share"
         app:showAsAction="always" />
 
-
-
-    >
-
 </tools:menu>

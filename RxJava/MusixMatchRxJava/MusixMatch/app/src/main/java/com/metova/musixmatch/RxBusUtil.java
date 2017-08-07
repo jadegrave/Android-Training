@@ -2,7 +2,6 @@ package com.metova.musixmatch;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 
 /**
  * Created by jodi on 8/4/17.

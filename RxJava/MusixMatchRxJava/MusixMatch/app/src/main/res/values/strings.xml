@@ -4,4 +4,5 @@
     <string name="artist_name">Artist Name</string>
     <string name="share_links_header">Web</string>
     <string name="fetch_musixmatch_artists_text">Fetching MusixMatch Artists...</string>
+    <string name="top_3_artists_menu_label">Top 3 Artists</string>
 </resources>
