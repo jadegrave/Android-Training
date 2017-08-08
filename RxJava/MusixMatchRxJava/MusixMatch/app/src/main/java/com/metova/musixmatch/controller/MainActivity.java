@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +30,10 @@ import com.metova.musixmatch.model.ArtistsResults;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -40,13 +43,13 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     private RecyclerView mRecyclerView;
-    TextView mDisconnected;
+    private TextView mDisconnected;
     ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeContainer;
-    private CompositeDisposable mCompositeDisposable;
-    private static final String PREFS_NAME = "MyPrefsFile";
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
 
     @Override
@@ -56,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar mActionBarMain = getSupportActionBar();
         mActionBarMain.setDisplayShowHomeEnabled(true);
-
 
         initViews();
 
@@ -75,31 +77,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.add("Top 3 Artists");
-        getMenuInflater().inflate(R.menu.options_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if(id == R.id.top3MenuItem) {
+        if(item.getItemId() == R.id.top3artists) {
             Intent intent = new Intent(this, Top3Activity.class);
-            startActivity(intent);
+            this.startActivity(intent);
             return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeDisposable.clear();  // clears all disposables, but can't accept new disposable
+        mCompositeDisposable.clear();  // clears all disposables, but can accept new disposable
     }
 
     private void initViews() {
         mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.getContext();
         mProgressDialog.setMessage(getString(R.string.fetch_musixmatch_artists_text));
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
@@ -135,16 +137,14 @@ public class MainActivity extends AppCompatActivity {
         List<Artist> artistArray = new ArrayList<>();
         artistArray = cleanArtistListArray(artistArrayList);
 
-        // save top 3 artists to SharedPreferences
+        // save top 3 artists to SharedPreferences and put top 3 artist data in map object
         setTop3((ArrayList<Artist>) artistArray);
-
 
         //Create and setup the adapter
         mRecyclerView.setAdapter(new ArtistAdapter(getApplicationContext(), artistArray));
         mRecyclerView.smoothScrollToPosition(0);
         mSwipeContainer.setRefreshing(false);
         mProgressDialog.hide();
-
 
 
     }
@@ -179,44 +179,21 @@ public class MainActivity extends AppCompatActivity {
             artistArray.add(a.getArtist());
         }
         // Sort Artists in ascending order of artist rating
-        Collections.sort(artistArray, new Comparator<Artist>() {
-            @Override
-            public int compare(Artist a1, Artist a2) {
-                return a1.getArtistRating() - a2.getArtistRating();
-            }
-        });
+        Collections.sort(artistArray, (a1, a2) -> a1.getArtistRating() - a2.getArtistRating());
         return artistArray;
-    }
-
-
-    // Define Shared Preferences file
-    public SharedPreferences getSharedPreferences (Context context) {
-        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);  // MODE_PRIVATE means no other app can access preferences file
     }
 
     // Save top 3 artists in Shared Preferences
     public void setTop3 (ArrayList<Artist> allArtists) {
-        getSharedPreferences(getApplicationContext()).edit().putString("firstArtistName", String.valueOf(allArtists.get(0).getArtistName())).apply();
-        getSharedPreferences(getApplicationContext()).edit().putString("secondArtistName", String.valueOf(allArtists.get(1).getArtistName())).apply();
-        getSharedPreferences(getApplicationContext()).edit().putString("thirdArtistName", String.valueOf(allArtists.get(2).getArtistName())).apply();
-        getSharedPreferences(getApplicationContext()).edit().putString("firstArtistRating", String.valueOf(allArtists.get(0).getArtistRating())).apply();
-        getSharedPreferences(getApplicationContext()).edit().putString("secondArtistRating", String.valueOf(allArtists.get(1).getArtistRating())).apply();
-        getSharedPreferences(getApplicationContext()).edit().putString("thirdArtistRating", String.valueOf(allArtists.get(2).getArtistRating())).apply();
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("firstArtistName", String.valueOf(allArtists.get(0).getArtistName()));
+        editor.putString("secondArtistName", String.valueOf(allArtists.get(1).getArtistName()));
+        editor.putString("thirdArtistName", String.valueOf(allArtists.get(2).getArtistName()));
+        editor.apply();
     }
 
-    public Map <String, String> getTop3 () {
-        Map<String, String > top3Artists = new HashMap<>();
-
-        top3Artists.put("firstArtistName", getSharedPreferences(getApplicationContext()).getString("firstArtistName", "First artist name unavailable"));
-        Log.i(TAG, top3Artists.toString());
-        top3Artists.put("secondArtistName", getSharedPreferences(getApplicationContext()).getString("secondArtistName", "Second artist name unavailable"));
-        top3Artists.put("thirdArtistName", getSharedPreferences(getApplicationContext()).getString("thirdArtistName", "Third artist name unavailable"));
-        top3Artists.put("firstArtistRating", getSharedPreferences(getApplicationContext()).getString("firstArtistRating", "First artist rating unavailable"));
-        top3Artists.put("secondArtistRating", getSharedPreferences(getApplicationContext()).getString("secondArtistRating", "Second artist rating unavailable"));
-        top3Artists.put("thirdArtistRating", getSharedPreferences(getApplicationContext()).getString("thirdArtistRating", "Third artist rating unavailable"));
-
-        return top3Artists;
 
 
-    }
 }
