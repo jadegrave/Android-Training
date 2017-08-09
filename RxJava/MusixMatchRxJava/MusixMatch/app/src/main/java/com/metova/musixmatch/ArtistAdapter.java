@@ -15,6 +15,9 @@ import com.metova.musixmatch.model.Artist;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by jodi on 8/1/17.
  */
@@ -37,6 +40,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ArtistAdapter.ViewHolder viewHolder, int i) {
+
         viewHolder.name.setText(artists.get(i).getArtistName());
         viewHolder.link.setText(artists.get(i).getArtistShareUrl());
         viewHolder.rating.setText(String.valueOf(artists.get(i).getArtistRating()));
@@ -48,34 +52,30 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private TextView link;
-        private TextView rating;
 
+        @BindView(R.id.name) TextView name;
+        @BindView(R.id.link) TextView link;
+        @BindView(R.id.rating) TextView rating;
 
         public ViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.name);
-            link = (TextView) view.findViewById(R.id.link);
-            rating = (TextView) view.findViewById(R.id.rating);
+            ButterKnife.bind(this, view);
+
+            itemView.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    Artist clickedDataItem = artists.get(pos);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
-                        Artist clickedDataItem = artists.get(pos);
-                        Intent intent = new Intent(context, DetailActivity.class);
-                        intent.putExtra("artist_name", artists.get(pos).getArtistName());
-                        intent.putExtra("artist_rating", artists.get(pos).getArtistRating());
-                        intent.putExtra("artist_share_url", artists.get(pos).getArtistShareUrl());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getArtistName(), Toast.LENGTH_SHORT).show();
-                    }
+                    //move to Main Activity
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra("artist_name", artists.get(pos).getArtistName());
+                    intent.putExtra("artist_rating", artists.get(pos).getArtistRating());
+                    intent.putExtra("artist_share_url", artists.get(pos).getArtistShareUrl());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getArtistName(), Toast.LENGTH_SHORT).show();
                 }
-
             });
         }
     }

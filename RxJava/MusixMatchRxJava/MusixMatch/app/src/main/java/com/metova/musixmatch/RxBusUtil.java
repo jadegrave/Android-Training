@@ -12,7 +12,7 @@ public class RxBusUtil {
     private static RxBusUtil instance;
     private final PublishSubject<Object> RxBus = PublishSubject.create();
 
-    public static RxBusUtil instanceOf() {
+    public static RxBusUtil getInstance() {
         if (instance == null) {
             instance = new RxBusUtil();
         }
@@ -24,11 +24,8 @@ public class RxBusUtil {
         RxBus.onNext(o);
     }
 
-    public Observable<Object> toObserverable() {
+    public Observable<Object> getEvents() {
         return RxBus;
     }
 
-    public boolean hasObservers() {
-        return RxBus.hasObservers();
-    }
 }

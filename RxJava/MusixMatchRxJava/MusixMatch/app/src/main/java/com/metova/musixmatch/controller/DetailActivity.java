@@ -13,24 +13,25 @@ import android.widget.TextView;
 
 import com.metova.musixmatch.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by jodi on 8/2/17.
  */
 
 public class DetailActivity extends AppCompatActivity {
-    TextView shareLink;
-    TextView artistFullName;
-    TextView artistMmRating;
+
+    @BindView(R.id.share_link) TextView shareLink;
+    @BindView(R.id.artist_name_full) TextView artistFullName;
+    @BindView(R.id.rating_text) TextView artistMmRating;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        artistMmRating = (TextView) findViewById(R.id.rating_text);
-        artistFullName = (TextView) findViewById(R.id.artist_name_full);
-        shareLink = (TextView) findViewById(R.id.share_link);
 
         String artistName = getIntent().getExtras().getString("artist_name");
         int rating = getIntent().getExtras().getInt("artist_rating");

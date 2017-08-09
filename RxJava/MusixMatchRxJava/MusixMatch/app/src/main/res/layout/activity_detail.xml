@@ -1,66 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/rating_header"
-        android:text="Artist Rating"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:textStyle="bold"
-        android:textSize="25dp" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/rating_text"
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="10dp"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_below="@+id/rating_header"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/artist_header"
-        android:layout_marginLeft="10dp"
-        android:text="@string/artist_name"
-        android:layout_marginTop="40dp"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:layout_below="@+id/rating_text" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/artist_name_full"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
-        android:textSize="20dp"
-        android:layout_below="@+id/artist_header" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/rating_header"
+            android:text="Artist Rating"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textSize="25dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/rating_text"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_below="@+id/rating_header"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/artist_header"
+            android:layout_marginLeft="10dp"
+            android:text="@string/artist_name"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:layout_below="@+id/rating_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/artist_name_full"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="20dp"
+            android:layout_below="@+id/artist_header" />
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/links_header"
-        android:layout_marginLeft="10dp"
-        android:text="@string/share_links_header"
-        android:layout_marginTop="40dp"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:layout_below="@+id/artist_name_full" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/links_header"
+            android:layout_marginLeft="10dp"
+            android:text="@string/share_links_header"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:layout_below="@+id/artist_name_full" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/share_link"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_below="@+id/links_header" />
-
-</RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/share_link"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_below="@+id/links_header" />
+    </RelativeLayout>
+</ScrollView>

@@ -1,7 +1,6 @@
 package com.metova.musixmatch.controller;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
@@ -35,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String PREFS_NAME = "MyPrefsFile";
 
+    @BindView(R.id.disconnected) TextView mDisconnected;
     private RecyclerView mRecyclerView;
-    private TextView mDisconnected;
     ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeContainer;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         ActionBar mActionBarMain = getSupportActionBar();
         mActionBarMain.setDisplayShowHomeEnabled(true);
@@ -92,11 +94,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         mCompositeDisposable.clear();  // clears all disposables, but can accept new disposable
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mCompositeDisposable.clear();
     }
 
     private void initViews() {
@@ -112,10 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadJSON (){
-        mDisconnected=(TextView)findViewById(R.id.disconnected);
         try {
-
-            Client client = new Client();
             Service apiService = Client.getClient().create(Service.class);
             mCompositeDisposable.add(apiService.getMessage(getData())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -125,13 +129,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error",e.getMessage());
             Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void handleResponse (ArtistsResults artistsResults) {
 
         ArrayList<ArtistList> artistArrayList = (ArrayList<ArtistList>)artistsResults.getMessage().getBody().getArtistList();
-
 
         // Get rid of ArtistList wrapper object around Artist objects and sort the artists based on artist rating
         List<Artist> artistArray = new ArrayList<>();
@@ -145,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.smoothScrollToPosition(0);
         mSwipeContainer.setRefreshing(false);
         mProgressDialog.hide();
-
-
     }
 
 
