@@ -5,5 +5,14 @@ package com.metova.musixmatch;
  */
 
 public class Events {
-    private Events() {}
+
+    private int mPosition;
+
+    public Events (int position) {
+        mPosition = position;
+    }
+
+    public int getPosition() {
+        return mPosition;
+    }
 }

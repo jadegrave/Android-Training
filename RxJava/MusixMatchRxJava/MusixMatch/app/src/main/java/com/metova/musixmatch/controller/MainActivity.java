@@ -20,7 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.metova.musixmatch.ArtistAdapter;
+import com.metova.musixmatch.Events;
 import com.metova.musixmatch.R;
+import com.metova.musixmatch.RxEventBus;
 import com.metova.musixmatch.api.Client;
 import com.metova.musixmatch.api.Service;
 import com.metova.musixmatch.model.Artist;
@@ -38,6 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -51,12 +54,13 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeContainer;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-
+    private Disposable mDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //mBus.getEvents();
         ButterKnife.bind(this);
 
         ActionBar mActionBarMain = getSupportActionBar();
@@ -67,12 +71,9 @@ public class MainActivity extends AppCompatActivity {
         mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark);
-        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
-            @Override
-            public void onRefresh(){
-                loadJSON();
-                Toast.makeText(MainActivity.this, "Artist List Refreshed", Toast.LENGTH_SHORT).show();
-            }
+        mSwipeContainer.setOnRefreshListener(() -> {
+            loadJSON();
+            Toast.makeText(MainActivity.this, "Artist List Refreshed", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -106,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
         mCompositeDisposable.clear();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     private void initViews() {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.getContext();
@@ -132,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleResponse (ArtistsResults artistsResults) {
-
+        mProgressDialog.dismiss();
         ArrayList<ArtistList> artistArrayList = (ArrayList<ArtistList>)artistsResults.getMessage().getBody().getArtistList();
 
         // Get rid of ArtistList wrapper object around Artist objects and sort the artists based on artist rating
@@ -143,20 +150,38 @@ public class MainActivity extends AppCompatActivity {
         setTop3((ArrayList<Artist>) artistArray);
 
         //Create and setup the adapter
-        mRecyclerView.setAdapter(new ArtistAdapter(getApplicationContext(), artistArray));
+        mRecyclerView.setAdapter(new ArtistAdapter(artistArray));
         mRecyclerView.smoothScrollToPosition(0);
         mSwipeContainer.setRefreshing(false);
         mProgressDialog.hide();
+
+        List<Artist> finalArtistArray = artistArray;
+
+        // Use singleton of RxEventbus, subscribe to the event (not the bus)
+        RxEventBus.getInstance().toObservable()
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(event -> {
+                    if (event instanceof Events) {
+                        int pos = ((Events) event).getPosition();
+                        Artist clickedDataItem = finalArtistArray.get(pos);
+                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                        intent.putExtra("artist_name", clickedDataItem.getArtistName());
+                        intent.putExtra("artist_rating", clickedDataItem.getArtistRating());
+                        intent.putExtra("artist_share_url", clickedDataItem.getArtistShareUrl());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
     }
 
-
+    // Handle errors in fetching data from MusixMatch API
     public void handleError (Throwable error) {
         Log.d("Error", error.getMessage());
         Toast.makeText(MainActivity.this, "Error Fetching Data!", Toast.LENGTH_LONG).show();
         mDisconnected.setVisibility(View.VISIBLE);
         mProgressDialog.hide();
     }
-
 
     // provides Retrofit2 query parameters to api url
     private Map<String, String> getData() {
@@ -170,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
         return data;
     }
 
-
     private List<Artist> cleanArtistListArray(ArrayList<ArtistList> artistArrayList) {
 
         // Remove empty unnecessary object for easier reference in code
@@ -183,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         return artistArray;
     }
 
-    // Save top 3 artists in Shared Preferences
+    // Save top 3 artists to Shared Preferences
     public void setTop3 (ArrayList<Artist> allArtists) {
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -193,7 +217,4 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("thirdArtistName", String.valueOf(allArtists.get(2).getArtistName()));
         editor.apply();
     }
-
-
-
 }
