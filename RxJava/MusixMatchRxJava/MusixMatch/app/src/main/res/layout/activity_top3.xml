@@ -9,9 +9,9 @@
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="Top 3 Artists"
+        android:text="@string/top_3_artists_header"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="30dp"
+        android:textSize="@dimen/large_text_size"
         android:textStyle="bold" />
     <TextView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="@dimen/normal_text"
         android:layout_below="@+id/rating_header"/>
 
     <TextView
@@ -31,7 +31,7 @@
         android:textColor="@color/colorAccent"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="20dp"
+        android:textSize="@dimen/normal_text"
         android:textStyle="bold"
         android:layout_below="@+id/number_one" />
 
@@ -44,7 +44,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="@dimen/normal_text"
         android:layout_below="@+id/number_two" />
 
 </RelativeLayout>

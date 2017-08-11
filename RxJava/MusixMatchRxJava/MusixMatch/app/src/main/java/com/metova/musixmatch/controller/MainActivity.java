@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeContainer;
+    List<Artist> mArtistArray = new ArrayList<>();
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private Disposable mDisposable;
 
@@ -74,14 +75,30 @@ public class MainActivity extends AppCompatActivity {
         initViews();
 
         mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark);
         mSwipeContainer.setOnRefreshListener(() -> {
             loadJSON();
             Toast.makeText(MainActivity.this, "Artist List Refreshed", Toast.LENGTH_SHORT).show();
         });
-    }
 
+        // Subscribe to click event of particular artist in recycler view. This is part of the observer pattern
+        // Subscriber is a consumer object.
+        RxEventBus.getInstance().toObservable()
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(event -> {
+                    if (event instanceof Events) {
+                        int pos = ((Events) event).getPosition();
+                        Artist clickedDataItem = mArtistArray.get(pos);
+                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                        intent.putExtra(ARTIST_NAME, clickedDataItem.getArtistName());
+                        intent.putExtra(ARTIST_RATING, clickedDataItem.getArtistRating());
+                        intent.putExtra(ARTIST_SHARE_URL, clickedDataItem.getArtistShareUrl());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         mCompositeDisposable.clear();  // clears all disposables, but can accept new disposable
     }
-
-
 
     private void initViews() {
         mProgressDialog = new ProgressDialog(this);
@@ -138,36 +153,16 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ArtistList> artistArrayList = (ArrayList<ArtistList>)artistsResults.getMessage().getBody().getArtistList();
 
         // Get rid of ArtistList wrapper object around Artist objects and sort the artists based on artist rating
-        List<Artist> artistArray = new ArrayList<>();
-        artistArray = cleanArtistListArray(artistArrayList);
+        mArtistArray = cleanArtistListArray(artistArrayList);
 
-        // save top 3 artists to SharedPreferences and put top 3 artist data in map object
-        setTopThreeArtists((ArrayList<Artist>) artistArray);
+        // save top 3 artists to SharedPreferences
+        setTopThreeArtists((ArrayList<Artist>) mArtistArray);
 
         //Create and setup the adapter
-        mRecyclerView.setAdapter(new ArtistAdapter(artistArray));
+        mRecyclerView.setAdapter(new ArtistAdapter(mArtistArray));
         mRecyclerView.smoothScrollToPosition(0);
         mSwipeContainer.setRefreshing(false);
         mProgressDialog.dismiss();
-
-        List<Artist> finalArtistArray = artistArray;
-
-        // Use singleton of RxEventbus, subscribe to the event (not the bus)
-        RxEventBus.getInstance().toObservable()
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(event -> {
-                    if (event instanceof Events) {
-                        int pos = ((Events) event).getPosition();
-                        Artist clickedDataItem = finalArtistArray.get(pos);
-                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                        intent.putExtra(ARTIST_NAME, clickedDataItem.getArtistName());
-                        intent.putExtra(ARTIST_RATING, clickedDataItem.getArtistRating());
-                        intent.putExtra(ARTIST_SHARE_URL, clickedDataItem.getArtistShareUrl());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                });
     }
 
     // Handle errors in fetching data from MusixMatch API

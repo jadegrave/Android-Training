@@ -5,5 +5,6 @@
     <string name="share_links_header">Web</string>
     <string name="fetch_musixmatch_artists_text">Fetching MusixMatch Artists...</string>
     <string name="action_bar_title_details_activity">Details Activity</string>
-
+    <string name="top_3_artists_header">Top 3 Artists</string>
+    <string name="detail_menu_title">Share</string>
 </resources>

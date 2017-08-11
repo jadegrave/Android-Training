@@ -21,7 +21,7 @@ public class RxEventBus {
         return instance;
     }
 
-    // Observable calls this method when to emit event
+    // Observable calls this method when the event occurs. This emits the event to the obeserver (Subsriber/subject/consumer)
     public void post (Object event) {
         rxBus.onNext(event);
     }

@@ -19,7 +19,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"
-            android:textSize="25dp" />
+            android:textSize="@dimen/large_text_size" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -27,7 +27,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="@dimen/normal_text"
             android:layout_below="@+id/rating_header"/>
         <TextView
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:text="@string/artist_name"
             android:layout_marginTop="40dp"
             android:textStyle="bold"
-            android:textSize="25dp"
+            android:textSize="@dimen/large_text_size"
             android:layout_below="@+id/rating_text" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:id="@+id/artist_name_full"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
-            android:textSize="20dp"
+            android:textSize="@dimen/normal_text"
             android:layout_below="@+id/artist_header" />
 
 
@@ -58,7 +58,7 @@
             android:text="@string/share_links_header"
             android:layout_marginTop="40dp"
             android:textStyle="bold"
-            android:textSize="25dp"
+            android:textSize="@dimen/large_text_size"
             android:layout_below="@+id/artist_name_full" />
 
         <TextView
@@ -68,7 +68,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="@dimen/normal_text"
             android:layout_below="@+id/links_header" />
     </RelativeLayout>
 </ScrollView>

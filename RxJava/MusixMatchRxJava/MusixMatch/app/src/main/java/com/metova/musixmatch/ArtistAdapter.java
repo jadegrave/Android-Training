@@ -1,6 +1,5 @@
 package com.metova.musixmatch;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +20,18 @@ import butterknife.ButterKnife;
 
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
-    private List<Artist> artists;
+    private List<Artist> mArtists;
     private RxEventBus mBus = RxEventBus.getInstance();
 
     public ArtistAdapter(List<Artist> artistArrayList) {
-        this.artists = artistArrayList;
+        this.mArtists = artistArrayList;
     }
 
     @Override
     public ArtistAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        // the int i is the view type; you could override the getItemViewType();
+        // if you don't override it with it, it just returns 0
+
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_artist, viewGroup, false);
         return new ViewHolder(view);
     }
@@ -37,7 +39,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ArtistAdapter.ViewHolder viewHolder, int i) {
 
-        Artist selectedArtist = artists.get(i);
+        Artist selectedArtist = mArtists.get(i);
         viewHolder.name.setText(selectedArtist.getArtistName());
         viewHolder.link.setText(selectedArtist.getArtistShareUrl());
         viewHolder.rating.setText(String.valueOf(selectedArtist.getArtistRating()));
@@ -45,7 +47,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return artists.size();
+        return mArtists.size();
     }
 
     public RxEventBus bus() {

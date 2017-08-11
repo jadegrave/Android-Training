@@ -20,6 +20,6 @@
         android:id="@+id/disconnected"
         android:text="@string/internet_not_available"
         android:textStyle="bold"
-        android:textSize="30sp"/>
+        android:textSize="@dimen/main_activity_disconnected_text"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>
