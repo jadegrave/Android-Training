@@ -20,9 +20,9 @@ import static com.metova.musixmatch.controller.MainActivity.PREFS_NAME;
  * Created by jodi on 8/3/17.
  */
 
-public class Top3Activity extends AppCompatActivity{
+public class TopThreeArtistsActivity extends AppCompatActivity{
     public static final String DEFAULT = "Name not available";
-    private static final String TAG =  Top3Activity.class.getSimpleName();
+    private static final String TAG =  TopThreeArtistsActivity.class.getSimpleName();
 
     @BindView(R.id.number_one) TextView mFirst;
     @BindView(R.id.number_two) TextView mSecond;
@@ -38,9 +38,9 @@ public class Top3Activity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String artistOne = sharedPreferences.getString("firstArtistName", DEFAULT);
-        String artistTwo = sharedPreferences.getString("secondArtistName", DEFAULT);
-        String artistThree = sharedPreferences.getString("thirdArtistName", DEFAULT);
+        String artistOne = sharedPreferences.getString(MainActivity.FIRST_ARTIST_NAME, DEFAULT);
+        String artistTwo = sharedPreferences.getString(MainActivity.SECOND_ARTIST_NAME, DEFAULT);
+        String artistThree = sharedPreferences.getString(MainActivity.THIRD_ARTIST_NAME, DEFAULT);
         Log.d(TAG, artistOne);
 
         mFirst.setText(artistOne);

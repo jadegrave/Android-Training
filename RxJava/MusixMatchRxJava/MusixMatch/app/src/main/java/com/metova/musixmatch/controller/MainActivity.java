@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String PREFS_NAME = "MyPrefsFile";
+    public static final String ARTIST_NAME = "artist name";
+    public static final String ARTIST_RATING = "artist rating";
+    public static final String ARTIST_SHARE_URL = "artist share url";
+    public static final String FIRST_ARTIST_NAME = "firstArtistName";
+    public static final String SECOND_ARTIST_NAME = "secondArtistName";
+    public static final String THIRD_ARTIST_NAME = "thirdArtistName";
 
     @BindView(R.id.disconnected) TextView mDisconnected;
     private RecyclerView mRecyclerView;
@@ -60,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //mBus.getEvents();
         ButterKnife.bind(this);
 
         ActionBar mActionBarMain = getSupportActionBar();
@@ -87,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.top3artists) {
-            Intent intent = new Intent(this, Top3Activity.class);
+            Intent intent = new Intent(this, TopThreeArtistsActivity.class);
             this.startActivity(intent);
             return true;
         } else {
@@ -101,17 +106,7 @@ public class MainActivity extends AppCompatActivity {
         mCompositeDisposable.clear();  // clears all disposables, but can accept new disposable
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        mCompositeDisposable.clear();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
 
     private void initViews() {
         mProgressDialog = new ProgressDialog(this);
@@ -139,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleResponse (ArtistsResults artistsResults) {
-        mProgressDialog.dismiss();
+        mDisconnected.setVisibility(View.INVISIBLE);
         ArrayList<ArtistList> artistArrayList = (ArrayList<ArtistList>)artistsResults.getMessage().getBody().getArtistList();
 
         // Get rid of ArtistList wrapper object around Artist objects and sort the artists based on artist rating
@@ -147,13 +142,13 @@ public class MainActivity extends AppCompatActivity {
         artistArray = cleanArtistListArray(artistArrayList);
 
         // save top 3 artists to SharedPreferences and put top 3 artist data in map object
-        setTop3((ArrayList<Artist>) artistArray);
+        setTopThreeArtists((ArrayList<Artist>) artistArray);
 
         //Create and setup the adapter
         mRecyclerView.setAdapter(new ArtistAdapter(artistArray));
         mRecyclerView.smoothScrollToPosition(0);
         mSwipeContainer.setRefreshing(false);
-        mProgressDialog.hide();
+        mProgressDialog.dismiss();
 
         List<Artist> finalArtistArray = artistArray;
 
@@ -166,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
                         int pos = ((Events) event).getPosition();
                         Artist clickedDataItem = finalArtistArray.get(pos);
                         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                        intent.putExtra("artist_name", clickedDataItem.getArtistName());
-                        intent.putExtra("artist_rating", clickedDataItem.getArtistRating());
-                        intent.putExtra("artist_share_url", clickedDataItem.getArtistShareUrl());
+                        intent.putExtra(ARTIST_NAME, clickedDataItem.getArtistName());
+                        intent.putExtra(ARTIST_RATING, clickedDataItem.getArtistRating());
+                        intent.putExtra(ARTIST_SHARE_URL, clickedDataItem.getArtistShareUrl());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
@@ -208,13 +203,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Save top 3 artists to Shared Preferences
-    public void setTop3 (ArrayList<Artist> allArtists) {
+    public void setTopThreeArtists(ArrayList<Artist> allArtists) {
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("firstArtistName", String.valueOf(allArtists.get(0).getArtistName()));
-        editor.putString("secondArtistName", String.valueOf(allArtists.get(1).getArtistName()));
-        editor.putString("thirdArtistName", String.valueOf(allArtists.get(2).getArtistName()));
+        editor.putString(FIRST_ARTIST_NAME, String.valueOf(allArtists.get(0).getArtistName()));
+        editor.putString(SECOND_ARTIST_NAME, String.valueOf(allArtists.get(1).getArtistName()));
+        editor.putString(THIRD_ARTIST_NAME, String.valueOf(allArtists.get(2).getArtistName()));
         editor.apply();
     }
 }

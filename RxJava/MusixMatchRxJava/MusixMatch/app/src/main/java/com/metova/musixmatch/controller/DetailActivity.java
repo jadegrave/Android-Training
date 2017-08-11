@@ -33,21 +33,21 @@ public class DetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String artistName = getIntent().getExtras().getString("artist_name");
-        int rating = getIntent().getExtras().getInt("artist_rating");
-        String link = getIntent().getExtras().getString("artist_share_url");
+        String artistName = getIntent().getExtras().getString(MainActivity.ARTIST_NAME);
+        int rating = getIntent().getExtras().getInt(MainActivity.ARTIST_RATING);
+        String link = getIntent().getExtras().getString(MainActivity.ARTIST_SHARE_URL);
 
         shareLink.setText(link);
         Linkify.addLinks(shareLink, Linkify.WEB_URLS);
 
         artistFullName.setText(artistName);
         artistMmRating.setText(String.valueOf(rating));
-        getSupportActionBar().setTitle("Details Activity");
+        getSupportActionBar().setTitle(R.string.action_bar_title_details_activity);
     }
 
 
 
-    private Intent createShareForecastIntent(){
+    private Intent createShareArtistIntent(){
         String artistName = getIntent().getExtras().getString("artist_name");
         String link = getIntent().getExtras().getString("artist_share_url");
 
@@ -63,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detail, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
-        menuItem.setIntent(createShareForecastIntent());
+        menuItem.setIntent(createShareArtistIntent());
         return true;
     }
 
