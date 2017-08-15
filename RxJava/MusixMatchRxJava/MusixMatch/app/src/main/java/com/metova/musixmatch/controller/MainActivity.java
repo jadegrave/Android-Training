@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         mCompositeDisposable.clear();  // clears all disposables, but can accept new disposable
     }
 
-    private void initViews() {
+    void initViews() {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.getContext();
         mProgressDialog.setMessage(getString(R.string.fetch_musixmatch_artists_text));
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(artistArray, (a1, a2) -> a1.getArtistRating() - a2.getArtistRating());
         return artistArray;
     }
+
 
     // Save top 3 artists to Shared Preferences
     public void setTopThreeArtists(ArrayList<Artist> allArtists) {

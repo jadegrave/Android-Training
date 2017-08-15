@@ -1,7 +1,10 @@
 package com.metova.musixmatch.model;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import static java.lang.Integer.parseInt;
 import static org.junit.Assert.*;
 
 /**
@@ -9,25 +12,34 @@ import static org.junit.Assert.*;
  */
 public class ArtistTest {
 
-    //private Artist fakeTestArtist = new Artist("Bangles", 23, "http://www.google.com");
-    private Artist fakeTestArtist = new Artist();
+    private Artist mFakeTestArtist;
+
+    @Before
+    public void setup(){
+        mFakeTestArtist = new Artist("Bangles", 23, "http://www.google.com");
+    }
+
+
+    @After
+    public void tearDown(){
+        mFakeTestArtist = null;
+    }
 
 
     @Test
     public void getArtistName() throws Exception {
-        fakeTestArtist.setArtistName("Bangles");
-        assertEquals("Bangles", fakeTestArtist.getArtistName());
+        mFakeTestArtist.setArtistName("Bangles");
+        assertEquals("Bangles", mFakeTestArtist.getArtistName());
     }
 
     @Test
     public void getArtistRating() throws Exception {
-        fakeTestArtist.setArtistRating(45);
-        assertEquals(45, fakeTestArtist.getArtistRating());
-        assertEquals  ();
+        assertEquals(23, (int) mFakeTestArtist.getArtistRating());
     }
 
     @Test
     public void getArtistShareUrl() throws Exception {
+        assertEquals("http://www.google.com", mFakeTestArtist.getArtistShareUrl());
 
     }
 

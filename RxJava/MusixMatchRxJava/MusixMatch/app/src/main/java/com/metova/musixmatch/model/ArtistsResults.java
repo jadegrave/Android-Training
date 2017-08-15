@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class ArtistsResults {
 
+
+
     @SerializedName("message")
     @Expose
     private Message message;

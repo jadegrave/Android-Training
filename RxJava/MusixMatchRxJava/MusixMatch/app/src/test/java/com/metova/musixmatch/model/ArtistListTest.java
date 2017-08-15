@@ -1,5 +1,7 @@
 package com.metova.musixmatch.model;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,15 +11,25 @@ import static org.junit.Assert.*;
  */
 public class ArtistListTest {
 
+    private ArtistList mFakeArtistListTest;
+    private Artist mFakeArtist;
 
-    private ArtistList fakeArtistListTest = new ArtistList();
-    private Artist fakeArtist = new Artist();
+    @Before
+    public void setup() {
+        mFakeArtistListTest = new ArtistList();
+        mFakeArtist = new Artist("Prince", 35, "http.facebook.com");
+        mFakeArtistListTest.setArtist(mFakeArtist);
+    }
+
+    @After
+    public void tearDown() {
+        mFakeArtistListTest = null;
+        mFakeArtist = null;
+    }
 
     @Test
     public void getArtist() throws Exception {
-
-        assertEquals(fakeArtist, fakeArtistListTest.getArtist());
-
+        assertEquals(mFakeArtist, mFakeArtistListTest.getArtist());
     }
 
 }

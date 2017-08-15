@@ -21,4 +21,6 @@ public class Body {
     public void setArtistList(List<ArtistList> artistList) {
         this.artistList = artistList;
     }
+
+
 }

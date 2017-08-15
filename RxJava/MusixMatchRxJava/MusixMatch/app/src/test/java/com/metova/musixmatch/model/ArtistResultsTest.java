@@ -1,5 +1,7 @@
 package com.metova.musixmatch.model;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,18 +13,28 @@ import static org.junit.Assert.assertEquals;
 
 public class ArtistResultsTest {
 
-    @Test
-    public void getMessageFromMusixMatchAPI () {
+    private ArtistsResults mArtistsResults;
+    private Message mFakeMessage;
 
-        ArtistsResults fakeArtistResults = new ArtistsResults();
-        Message fakeMessage = new Message();
 
-        fakeArtistResults.setMessage(fakeMessage);
-
-        assertEquals(fakeMessage, fakeArtistResults.getMessage());
-
+    @Before
+    public void setup() {
+        mArtistsResults = new ArtistsResults();
+        mFakeMessage = new Message();
+    }
+    @After
+    public void tearDown(){
+        mArtistsResults = null;
+        mFakeMessage = null;
     }
 
 
+    @Test
+    public void getMessageFromMusixMatchAPI () throws Exception{
 
+        mArtistsResults.setMessage(mFakeMessage);
+
+        assertEquals(mFakeMessage, mArtistsResults.getMessage());
+
+    }
 }

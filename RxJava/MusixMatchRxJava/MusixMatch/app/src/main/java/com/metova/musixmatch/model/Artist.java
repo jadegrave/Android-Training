@@ -32,25 +32,16 @@ public class Artist {
         return artistShareUrl;
     }
 
-//    @VisibleForTesting
-//    public Artist(String artistName, Integer artistRating, String artistShareUrl) {
-//        this.artistName = artistName;
-//        this.artistRating = artistRating;
-//        this.artistShareUrl = artistShareUrl;
-//    }
+    @VisibleForTesting
+    public Artist(String artistName, Integer artistRating, String artistShareUrl) {
+        this.artistName = artistName;
+        this.artistRating = artistRating;
+        this.artistShareUrl = artistShareUrl;
+    }
 
     @VisibleForTesting
     public void setArtistName(String artistName) {
         this.artistName = artistName;
     }
 
-    @VisibleForTesting
-    public void setArtistRating(Integer artistRating) {
-        this.artistRating = artistRating;
-    }
-
-    @VisibleForTesting
-    public void setArtistShareUrl(String artistShareUrl) {
-        this.artistShareUrl = artistShareUrl;
-    }
 }
