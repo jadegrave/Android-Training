@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
 
+
         mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark);
         mSwipeContainer.setOnRefreshListener(() -> {
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mRecyclerView.smoothScrollToPosition(0);
         loadJSON();
+
     }
 
     private void loadJSON (){
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Handle errors in fetching data from MusixMatch API
-    public void handleError (Throwable error) {
+    private void handleError (Throwable error) {
         Log.d("Error", error.getMessage());
         Toast.makeText(MainActivity.this, "Error Fetching Data!", Toast.LENGTH_LONG).show();
         mDisconnected.setVisibility(View.VISIBLE);

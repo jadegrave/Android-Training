@@ -1,29 +1,19 @@
 package com.metova.musixmatch.controller;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
-import org.mockito.Mock;
-
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Mockito.*;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
+
+import static org.hamcrest.CoreMatchers.*;
 
 import android.support.test.rule.ActivityTestRule;
 import android.widget.TextView;
@@ -47,7 +37,6 @@ public class TopThreeArtistsActivityTest {
     @Rule
     public ActivityTestRule<TopThreeArtistsActivity> mActivityRule = new ActivityTestRule<>(TopThreeArtistsActivity.class);
 
-
     @Before
     public void setUp() throws Exception {
         // Note: When activity launches, it using the true shared preferences object; we will have to set
@@ -59,11 +48,6 @@ public class TopThreeArtistsActivityTest {
         // Initialize the instance of the real TopThreeArtists Activity. This allows us to call the
         // SetArtists method
         mTopThreeArtistsActivity = mActivityRule.getActivity();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     @Test

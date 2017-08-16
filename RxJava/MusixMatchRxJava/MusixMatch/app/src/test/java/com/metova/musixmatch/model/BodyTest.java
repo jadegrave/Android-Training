@@ -40,7 +40,6 @@ public class BodyTest {
         mFakeListOfArtistList.add(mArtistListTwo);
 
         mFakeBody.setArtistList(mFakeListOfArtistList);
-
     }
 
     @After

@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ArtistList {
 
-
     @SerializedName("artist")
     @Expose
     private Artist artist;

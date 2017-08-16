@@ -1,14 +1,32 @@
 package com.metova.musixmatch.controller;
 
+import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 
-import org.junit.After;
-import org.junit.Before;
+import com.metova.musixmatch.R;
+
+import org.hamcrest.Matcher;
+
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+
+
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 
 /**
  * Created by jodi on 8/15/17.
@@ -16,34 +34,61 @@ import static org.junit.Assert.*;
 public class DetailActivityTest {
 
 
-    private DetailActivity mDetailActivity;
+    public static final String ARTIST_NAME = "artist name";
+    public static final String ARTIST_RATING = "artist rating";
+    public static final String ARTIST_SHARE_URL = "artist share url";
+
+
 
     @Rule
-    public ActivityTestRule<DetailActivity> mActivityRule = new ActivityTestRule<>(DetailActivity.class);
+    public ActivityTestRule<DetailActivity> mActivityRule =
+            new ActivityTestRule<DetailActivity>(DetailActivity.class) {
 
-    @Before
-    public void setUp() throws Exception {
-        //launch the test Detail Activity
-        Intent intent = new Intent();
-        mActivityRule.launchActivity(intent);
+                // Overriding getActivityIntent so that all tests can use it
+                @Override
+                protected Intent getActivityIntent() {
+                    Context targetContext = InstrumentationRegistry.getInstrumentation()
+                            .getTargetContext();
+                    Intent intent = new Intent(targetContext, DetailActivity.class);
+                    intent.putExtra(ARTIST_NAME, "Ed Sheeran");
+                    intent.putExtra(ARTIST_RATING, 100);
+                    intent.putExtra(ARTIST_SHARE_URL, "https://www.google.com");
+                    return intent;
+                }
+            };
 
-        //Initialize the instance of the real DetailActivity, so we access various methods for test
-        mDetailActivity = mActivityRule.getActivity();
-    }
-
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void checkIntentPassedFromMainActivityArtistName () throws Exception {
+        onView(withId(R.id.artist_name_full)).check(matches(withText("Ed Sheeran")));
 
     }
 
     @Test
-    public void getIntentInfoArtistRatingLink () throws Exception {
+    public void checkIntentPassedFromMainActivityArtistRating () throws Exception {
+       onView(withId(R.id.rating_text)).check(matches(withText("100")));
 
     }
 
     @Test
-    public void onCreateOptionsMenu() throws Exception {
+    public void checkIntentPassedFromMainActivityShareURL () throws Exception {
+        onView(withId(R.id.share_link)).check(matches(withText("https://www.google.com")));
+    }
+
+    @Test
+    public void displayArtistWebSiteWhenUrlIsClicked () throws Exception {
+        Intents.init();
+        Matcher<Intent> expectedIntent = hasData("https://www.google.com");
+        intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0, null));
+        onView(withId(R.id.share_link)).perform(click());
+        intended(expectedIntent);
+        Intents.release();
 
     }
 
+    @Test
+    public void ShareOptionsMenuDisplaysOnDetailActivity () {
+        // ensures share option is displayed
+        onView(withId(R.id.action_share)).check(matches(isDisplayed()));
+
+    }
 }

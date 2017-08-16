@@ -19,12 +19,10 @@ public class ArtistTest {
         mFakeTestArtist = new Artist("Bangles", 23, "http://www.google.com");
     }
 
-
     @After
     public void tearDown(){
         mFakeTestArtist = null;
     }
-
 
     @Test
     public void getArtistName() throws Exception {
@@ -42,5 +40,4 @@ public class ArtistTest {
         assertEquals("http://www.google.com", mFakeTestArtist.getArtistShareUrl());
 
     }
-
 }

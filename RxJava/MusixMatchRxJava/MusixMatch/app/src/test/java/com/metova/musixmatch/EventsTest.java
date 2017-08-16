@@ -30,8 +30,4 @@ public class EventsTest {
         assertEquals(6, mFakeEvent.getPosition());
     }
 
-
-
-
-
 }

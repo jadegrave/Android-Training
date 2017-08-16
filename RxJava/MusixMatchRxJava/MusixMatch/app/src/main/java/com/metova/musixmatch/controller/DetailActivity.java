@@ -2,6 +2,7 @@ package com.metova.musixmatch.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.util.Linkify;
@@ -46,8 +47,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-
-    private Intent createShareArtistIntent(){
+     @VisibleForTesting
+     public Intent createShareArtistIntent(){
         String artistName = getIntent().getExtras().getString("artist_name");
         String link = getIntent().getExtras().getString("artist_share_url");
 
