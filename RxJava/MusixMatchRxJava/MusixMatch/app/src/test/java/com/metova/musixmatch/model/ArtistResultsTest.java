@@ -30,7 +30,7 @@ public class ArtistResultsTest {
     }
 
     @Test
-    public void getMessageFromMusixMatchAPI () throws Exception{
+    public void testGetMessageFromMusixMatchAPI() throws Exception{
 
         mArtistsResults.setMessage(mFakeMessage);
 

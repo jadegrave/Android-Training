@@ -4,8 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static java.lang.Integer.parseInt;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by jodi on 8/11/17.
@@ -13,31 +12,34 @@ import static org.junit.Assert.*;
 public class ArtistTest {
 
     private Artist mFakeTestArtist;
+    private String artistName = "Bangles";
+    private int artistRating = 23;
+    private String artistShareUrl = "https://www.google.com";
 
     @Before
-    public void setup(){
-        mFakeTestArtist = new Artist("Bangles", 23, "http://www.google.com");
+    public void setup() {
+        mFakeTestArtist = new Artist(artistName, artistRating, artistShareUrl);
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         mFakeTestArtist = null;
     }
 
     @Test
-    public void getArtistName() throws Exception {
-        mFakeTestArtist.setArtistName("Bangles");
-        assertEquals("Bangles", mFakeTestArtist.getArtistName());
+    public void testGetArtistName() throws Exception {
+        mFakeTestArtist.setArtistName(artistName);
+        assertEquals(artistName, mFakeTestArtist.getArtistName());
     }
 
     @Test
-    public void getArtistRating() throws Exception {
-        assertEquals(23, (int) mFakeTestArtist.getArtistRating());
+    public void testGetArtistRating() throws Exception {
+        assertEquals(artistRating, (int) mFakeTestArtist.getArtistRating());
     }
 
     @Test
-    public void getArtistShareUrl() throws Exception {
-        assertEquals("http://www.google.com", mFakeTestArtist.getArtistShareUrl());
+    public void testGetArtistShareUrl() throws Exception {
+        assertEquals(artistShareUrl, mFakeTestArtist.getArtistShareUrl());
 
     }
 }

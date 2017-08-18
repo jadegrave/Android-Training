@@ -58,7 +58,7 @@ public class TopThreeArtistsActivity extends AppCompatActivity{
     @VisibleForTesting
     // Passes in the mock sharedPreferences for testing only
     // This is set to package-private (no scope modifier) so it's available to test
-    public void setSharedPreferencesForTest (SharedPreferences sharedPrefs){
+    void setSharedPreferencesForTest (SharedPreferences sharedPrefs){
         mSharedPreferences = sharedPrefs;
     }
 }

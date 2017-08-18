@@ -10,7 +10,6 @@ import android.support.test.rule.ActivityTestRule;
 import com.metova.musixmatch.R;
 
 import org.hamcrest.Matcher;
-
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -19,11 +18,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
-
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-
-
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -34,10 +30,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class DetailActivityTest {
 
 
-    public static final String ARTIST_NAME = "artist name";
-    public static final String ARTIST_RATING = "artist rating";
-    public static final String ARTIST_SHARE_URL = "artist share url";
-
+    private String artistName = "Ed Sheeran";
+    private int artistRating = 100;
+    private String artistShareUrl = "https://www.google.com";
 
 
     @Rule
@@ -50,34 +45,34 @@ public class DetailActivityTest {
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
                     Intent intent = new Intent(targetContext, DetailActivity.class);
-                    intent.putExtra(ARTIST_NAME, "Ed Sheeran");
-                    intent.putExtra(ARTIST_RATING, 100);
-                    intent.putExtra(ARTIST_SHARE_URL, "https://www.google.com");
+                    intent.putExtra(MainActivity.ARTIST_NAME, artistName);
+                    intent.putExtra(MainActivity.ARTIST_RATING, artistRating);
+                    intent.putExtra(MainActivity.ARTIST_SHARE_URL, artistShareUrl);
                     return intent;
                 }
             };
 
     @Test
-    public void checkIntentPassedFromMainActivityArtistName () throws Exception {
-        onView(withId(R.id.artist_name_full)).check(matches(withText("Ed Sheeran")));
+    public void testCheckIntentPassedFromMainActivityArtistName() throws Exception {
+        onView(withId(R.id.artist_name_full)).check(matches(withText(artistName)));
 
     }
 
     @Test
-    public void checkIntentPassedFromMainActivityArtistRating () throws Exception {
-       onView(withId(R.id.rating_text)).check(matches(withText("100")));
+    public void testCheckIntentPassedFromMainActivityArtistRating() throws Exception {
+        onView(withId(R.id.rating_text)).check(matches(withText(Integer.toString(artistRating))));
 
     }
 
     @Test
-    public void checkIntentPassedFromMainActivityShareURL () throws Exception {
-        onView(withId(R.id.share_link)).check(matches(withText("https://www.google.com")));
+    public void testCheckIntentPassedFromMainActivityShareURL() throws Exception {
+        onView(withId(R.id.share_link)).check(matches(withText(artistShareUrl)));
     }
 
     @Test
-    public void displayArtistWebSiteWhenUrlIsClicked () throws Exception {
+    public void testDisplayArtistWebSiteWhenUrlIsClicked() throws Exception {
         Intents.init();
-        Matcher<Intent> expectedIntent = hasData("https://www.google.com");
+        Matcher<Intent> expectedIntent = hasData(artistShareUrl);
         intending(expectedIntent).respondWith(new Instrumentation.ActivityResult(0, null));
         onView(withId(R.id.share_link)).perform(click());
         intended(expectedIntent);
@@ -86,7 +81,7 @@ public class DetailActivityTest {
     }
 
     @Test
-    public void ShareOptionsMenuDisplaysOnDetailActivity () {
+    public void testShareOptionsMenuDisplaysOnDetailActivity() {
         // ensures share option is displayed
         onView(withId(R.id.action_share)).check(matches(isDisplayed()));
 

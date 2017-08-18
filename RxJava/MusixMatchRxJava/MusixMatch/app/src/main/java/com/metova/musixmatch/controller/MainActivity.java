@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -150,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void handleResponse (ArtistsResults artistsResults) {
+    @VisibleForTesting
+    void handleResponse (ArtistsResults artistsResults) {
         mDisconnected.setVisibility(View.INVISIBLE);
         ArrayList<ArtistList> artistArrayList = (ArrayList<ArtistList>)artistsResults.getMessage().getBody().getArtistList();
 

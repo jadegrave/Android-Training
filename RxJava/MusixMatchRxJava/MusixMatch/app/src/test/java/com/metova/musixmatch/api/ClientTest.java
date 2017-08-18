@@ -28,7 +28,7 @@ public class ClientTest {
     }
 
     @Test
-    public void getClient() throws Exception {
+    public void testGetClient() throws Exception {
         assertNotNull(client);
     }
 

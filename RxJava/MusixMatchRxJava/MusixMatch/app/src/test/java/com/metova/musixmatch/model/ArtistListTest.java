@@ -28,7 +28,7 @@ public class ArtistListTest {
     }
 
     @Test
-    public void getArtist() throws Exception {
+    public void testGetArtist() throws Exception {
         assertEquals(mFakeArtist, mFakeArtistListTest.getArtist());
     }
 

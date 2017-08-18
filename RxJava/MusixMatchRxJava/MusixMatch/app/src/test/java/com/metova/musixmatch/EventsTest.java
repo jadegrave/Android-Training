@@ -26,7 +26,7 @@ public class EventsTest {
         mFakeEvent = null;
     }
     @Test
-    public void getPosition () throws Exception {
+    public void testGetPosition() throws Exception {
         assertEquals(6, mFakeEvent.getPosition());
     }
 

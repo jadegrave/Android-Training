@@ -28,7 +28,7 @@ public class MessageTest {
 
 
     @Test
-    public void getBody() throws Exception {
+    public void testGetBody() throws Exception {
 
         mFakeTestMessage.setBody(mFakeBody);
 

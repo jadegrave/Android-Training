@@ -22,13 +22,21 @@ public class BodyTest {
     private Artist mFakeArtistOne;
     private Artist mFakeArtistTwo;
 
+    private String artistName1 = "Stan Getz";
+    private int artistRating1 = 99;
+    private String artistShareUrl1 = "https://www.stangetz.com";
+
+    private String artistName2 = "Esperanza Spalding";
+    private int artistRating2 = 1;
+    private String artistShareUrl2 =  "https://www.jazz.com";
 
     @Before
     public void setUp() throws Exception {
         mFakeBody = new Body();
 
-        mFakeArtistOne = new Artist("Stan Getz", 99, "https://www.stangetz.com");
-        mFakeArtistTwo = new Artist("Esperanza Spalding", 1, "https://www.jazz.com");
+
+        mFakeArtistOne = new Artist(artistName1, artistRating1, artistShareUrl1);
+        mFakeArtistTwo = new Artist(artistName2, artistRating2, artistShareUrl2);
 
         mArtistListOne = new ArtistList();
         mArtistListTwo = new ArtistList();
@@ -52,11 +60,11 @@ public class BodyTest {
     }
 
     @Test
-    public void getArtistList() throws Exception {
+    public void testGetArtistList() throws Exception {
 
         assertNotNull(mFakeListOfArtistList);
 
-        mFakeListOfArtistList.equals(mFakeBody.getArtistList());
+        assertTrue(mFakeListOfArtistList.equals(mFakeBody.getArtistList()));
 
     }
 }
