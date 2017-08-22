@@ -189,7 +189,8 @@ public class MainActivity extends AppCompatActivity {
         return data;
     }
 
-    private List<Artist> cleanArtistListArray(ArrayList<ArtistList> artistArrayList) {
+    @VisibleForTesting
+     List<Artist> cleanArtistListArray(ArrayList<ArtistList> artistArrayList) {
 
         // Remove empty unnecessary object for easier reference in code
         List<Artist> artistArray = new ArrayList<>();
@@ -202,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @VisibleForTesting
     // Save top 3 artists to Shared Preferences
     public void setTopThreeArtists(ArrayList<Artist> allArtists) {
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
